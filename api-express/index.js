@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+app.disable('x-powered-by'); // Disable 'X-Powered-By' header for security
 const port = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {
