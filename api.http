@@ -1,0 +1,4 @@
+# Use REST Client extension for VS Code to run this file
+
+### Hello world
+GET http://localhost:3000
