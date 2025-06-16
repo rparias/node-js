@@ -10,6 +10,14 @@ app.get('/', (req, res) => {
   res.end('Hello, World!')
 })
 
+app.post('/login', (req, res) => {})
+
+app.post('/register', (req, res) => {})
+
+app.post('/logout', (req, res) => {})
+
+app.post('/protected', (req, res) => {})
+
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`)
 })
