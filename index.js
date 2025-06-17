@@ -4,13 +4,15 @@ import { UserRepository } from './user-repository.js'
 
 const app = express()
 
+app.set('view engine', 'ejs') // Set EJS as the view engine
+
 app.use(express.json()) // Middleware to parse JSON bodies
 
 app.disable('x-powered-by') // Disable 'X-Powered-By' header for security
 
 app.get('/', (req, res) => {
   console.log('request received:', req.method, req.url)
-  res.end('Hello, World!')
+  res.render('example', { username: 'Ronald' })
 })
 
 app.post('/login', async (req, res) => {
