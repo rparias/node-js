@@ -13,7 +13,16 @@ app.get('/', (req, res) => {
   res.end('Hello, World!')
 })
 
-app.post('/login', (req, res) => {})
+app.post('/login', async (req, res) => {
+  const { username, password } = req.body
+
+  try {
+    const user = await UserRepository.login({ username, password })
+    res.json({ user })
+  } catch (error) {
+    res.status(401).json({ error: error.message })
+  }
+})
 
 app.post('/register', async (req, res) => {
   const { username, password } = req.body

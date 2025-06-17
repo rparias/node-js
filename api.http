@@ -3,11 +3,20 @@
 ### Hello world
 GET http://localhost:3000
 
-### Login
+### Register
 POST http://localhost:3000/register
 Content-Type: application/json
 
 {
   "username": "testuser2",
+  "password": "testpassword"
+}
+
+### Login
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+  "username": "testuser1",
   "password": "testpassword"
 }
