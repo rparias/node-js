@@ -12,7 +12,7 @@ app.disable('x-powered-by') // Disable 'X-Powered-By' header for security
 
 app.get('/', (req, res) => {
   console.log('request received:', req.method, req.url)
-  res.render('example', { username: 'Ronald' })
+  res.render('index')
 })
 
 app.post('/login', async (req, res) => {
