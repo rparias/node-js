@@ -15,11 +15,11 @@ app.get('/', (req, res) => {
 
 app.post('/login', (req, res) => {})
 
-app.post('/register', (req, res) => {
+app.post('/register', async (req, res) => {
   const { username, password } = req.body
 
   try {
-    const userId = UserRepository.create({ username, password })
+    const userId = await UserRepository.create({ username, password })
     res.status(201).json({ message: 'User created successfully', userId })
   } catch (error) {
     console.error('Error creating user:', error)
