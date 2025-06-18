@@ -15,7 +15,18 @@ app.disable('x-powered-by') // Disable 'X-Powered-By' header for security
 
 app.get('/', (req, res) => {
   console.log('request received:', req.method, req.url)
-  res.render('index')
+
+  const token = req.cookies.access_token
+
+  if (!token) res.render('index')
+
+  try {
+    const data = jwt.verify(token, SECRET_JWT_KEY)
+    res.render('index', data) // { _id, username }
+  } catch (error) {
+    console.error('JWT verification failed:', error)
+    res.render('index')
+  }
 })
 
 app.post('/login', async (req, res) => {
