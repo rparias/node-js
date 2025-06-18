@@ -10,23 +10,23 @@ app.set('view engine', 'ejs') // Set EJS as the view engine
 
 app.use(express.json()) // Middleware to parse JSON bodies
 app.use(cookieParser()) // Middleware to parse cookies
+app.use((req, res, next) => { // Middleware to verify JWT token
+  const token = req.cookies.access_token
+  req.session = { user: null }
+
+  if (token) {
+    const data = jwt.verify(token, SECRET_JWT_KEY) // { _id, username }
+    req.session.user = data // Attach user data to the session
+  }
+
+  next()
+})
 
 app.disable('x-powered-by') // Disable 'X-Powered-By' header for security
 
 app.get('/', (req, res) => {
-  console.log('request received:', req.method, req.url)
-
-  const token = req.cookies.access_token
-
-  if (!token) res.render('index')
-
-  try {
-    const data = jwt.verify(token, SECRET_JWT_KEY)
-    res.render('index', data) // { _id, username }
-  } catch (error) {
-    console.error('JWT verification failed:', error)
-    res.render('index')
-  }
+  const { user } = req.session
+  res.render('index', user)
 })
 
 app.post('/login', async (req, res) => {
@@ -67,16 +67,11 @@ app.post('/register', async (req, res) => {
 app.post('/logout', (req, res) => {})
 
 app.get('/protected', (req, res) => {
-  const token = req.cookies.access_token
+  const { user } = req.session
 
-  if (!token) return res.status(401).json({ error: 'Unauthorized' })
+  if (!user) return res.status(401).json({ error: 'Unauthorized' })
 
-  try {
-    const data = jwt.verify(token, SECRET_JWT_KEY)
-    res.render('protected', data) // { _id, username }
-  } catch (error) {
-    res.status(401).json({ error: 'Unauthorized' })
-  }
+  res.render('protected', user)
 })
 
 app.listen(PORT, () => {
