@@ -64,7 +64,11 @@ app.post('/register', async (req, res) => {
   }
 })
 
-app.post('/logout', (req, res) => {})
+app.post('/logout', (req, res) => {
+  res
+    .clearCookie('access_token')
+    .json({ message: 'Logged out successfully' })
+})
 
 app.get('/protected', (req, res) => {
   const { user } = req.session
